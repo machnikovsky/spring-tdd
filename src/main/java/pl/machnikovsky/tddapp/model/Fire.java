@@ -12,12 +12,14 @@ public class Fire {
     private String city;
     private int dangerLevel;
     private boolean isActive;
+    private int firefightersRequired;
 
-    public Fire(int id, String city, int dangerLevel, boolean isActive) {
+    public Fire(int id, String city, int dangerLevel, boolean isActive, int firefightersRequired) {
         this.id = id;
         this.city = city;
         this.dangerLevel = dangerLevel;
         this.isActive = isActive;
+        this.firefightersRequired = firefightersRequired;
     }
 
     public Fire() {
@@ -53,5 +55,13 @@ public class Fire {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public int getFirefightersRequired() {
+        return firefightersRequired;
+    }
+
+    public void setFirefightersRequired(int firefightersRequired) {
+        this.firefightersRequired = firefightersRequired;
     }
 }

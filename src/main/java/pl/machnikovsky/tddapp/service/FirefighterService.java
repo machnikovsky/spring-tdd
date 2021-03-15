@@ -31,16 +31,14 @@ public class FirefighterService {
         return firefighterRepository
                 .findAll()
                 .stream()
-                .sorted(Comparator.comparing(Firefighter::getPoints).reversed())
-                .findFirst();
+                .max(Comparator.comparing(Firefighter::getPoints));
     }
 
     public Optional<Firefighter> getHighestRank() {
         return firefighterRepository
                 .findAll()
                 .stream()
-                .sorted(Comparator.comparing(Firefighter::getRank).reversed())
-                .findFirst();
+                .max(Comparator.comparing(Firefighter::getRank));
     }
 
     public List<Firefighter> getFirefightersOver(int points) {

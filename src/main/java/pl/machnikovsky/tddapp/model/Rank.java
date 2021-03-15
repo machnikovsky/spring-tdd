@@ -17,7 +17,7 @@ public enum Rank {
         this.rankLevel = rankLevel;
     }
 
-    public Rank getRankByRankLevel(int rankLevel) {
+    public Rank getRankwiByRankLevel(int rankLevel) {
         return Stream.of(Rank.values()).filter(rank -> rank.rankLevel == rankLevel).findFirst().orElse(null);
     }
 
