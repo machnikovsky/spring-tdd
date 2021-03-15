@@ -9,23 +9,18 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import pl.machnikovsky.tddapp.model.Firefighter;
 import pl.machnikovsky.tddapp.service.FirefighterService;
+import pl.machnikovsky.tddapp.service.FirestationService;
 
 import java.util.List;
 
 @RestController
-public class FirefighterController {
+public class FirestationController {
 
-    FirefighterService firefighterService;
+    FirestationService firestationService;
 
     @Autowired
-    public FirefighterController(FirefighterService firefighterService) {
-        this.firefighterService = firefighterService;
+    public FirestationController(FirestationService firestationService) {
+        this.firestationService = firestationService;
     }
 
-
-    @GetMapping("/firefighters")
-    @ResponseStatus
-    public ResponseEntity<List<Firefighter>>  getFirefighters() {
-        return firefighterService.getFirefighters();
-    }
 }

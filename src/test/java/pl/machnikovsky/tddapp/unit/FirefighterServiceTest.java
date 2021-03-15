@@ -147,7 +147,6 @@ public class FirefighterServiceTest {
     }
 
 
-
     private List<Firefighter> mockListOfFirefighters() {
 
         Firefighter firefighterOne = new Firefighter();
