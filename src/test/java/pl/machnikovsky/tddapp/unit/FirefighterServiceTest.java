@@ -31,9 +31,10 @@ public class FirefighterServiceTest {
         FirefighterRepository firefighterRepository = mock(FirefighterRepository.class);
         List<Firefighter> firefighters = mockListOfFirefighters();
         doReturn(firefighters).when(firefighterRepository).findAll();
+        firefighterService = new FirefighterService(firefighterRepository);
 
         //when
-        Optional<Firefighter> bestFirefighter = firefighters.getBestFirefighter();
+        Optional<Firefighter> bestFirefighter = firefighterService.getBestFirefighter();
 
         //then
         Assertions.assertEquals(930, bestFirefighter.get().getPoints());
