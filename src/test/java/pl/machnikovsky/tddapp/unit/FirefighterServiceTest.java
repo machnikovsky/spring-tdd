@@ -25,8 +25,7 @@ public class FirefighterServiceTest {
     FirefighterService firefighterService;
 
     @Test
-    void getBestFirefighter() {
-
+    void shouldReturnBestFirefighter() {
         //given
         FirefighterRepository firefighterRepository = mock(FirefighterRepository.class);
         List<Firefighter> firefighters = mockListOfFirefighters();
@@ -38,7 +37,21 @@ public class FirefighterServiceTest {
 
         //then
         Assertions.assertEquals(930, bestFirefighter.get().getPoints());
+    }
 
+    @Test
+    void shouldReturnHighestRank() {
+        //given
+        FirefighterRepository firefighterRepository = mock(FirefighterRepository.class);
+        List<Firefighter> firefighters = mockListOfFirefighters();
+        doReturn(firefighters).when(firefighterRepository).findAll();
+        firefighterService = new FirefighterService(firefighterRepository);
+
+        //when
+        Optional<Firefighter> bestFirefighter = firefighterService.getHighestRank();
+
+        //then
+        Assertions.assertEquals(Rank.CHIEF, bestFirefighter.get().getRank());
     }
 
 

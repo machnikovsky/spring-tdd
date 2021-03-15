@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import pl.machnikovsky.tddapp.model.Firefighter;
 import pl.machnikovsky.tddapp.repository.FirefighterRepository;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FirefighterService {
@@ -24,8 +26,7 @@ public class FirefighterService {
     }
 
 
-
-
-
-
+    public Optional<Firefighter> getBestFirefighter() {
+        return firefighterRepository.findAll().stream().max(Comparator.comparingInt(Firefighter::getPoints));
+    }
 }
