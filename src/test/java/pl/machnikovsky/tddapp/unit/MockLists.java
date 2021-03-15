@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MockLists {
+class MockLists {
 
     public static List<Firefighter> mockListOfFirefighters() {
 

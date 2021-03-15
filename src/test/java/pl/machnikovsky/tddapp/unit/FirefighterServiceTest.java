@@ -1,6 +1,7 @@
 package pl.machnikovsky.tddapp.unit;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -16,18 +17,26 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static pl.machnikovsky.tddapp.unit.MockLists.mockListOfFirefighters;
 
-@ExtendWith(MockitoExtension.class) class FirefighterServiceTest {
+@ExtendWith(MockitoExtension.class)
+class FirefighterServiceTest {
 
 
     private FirefighterService firefighterService;
+    private FirefighterRepository firefighterRepository;
+
+
+    @BeforeEach
+    void init() {
+        firefighterRepository = mock(FirefighterRepository.class);
+        firefighterService = new FirefighterService(firefighterRepository);
+    }
+
 
     @Test
     void shouldReturnBestFirefighter() {
         //given
-        FirefighterRepository firefighterRepository = mock(FirefighterRepository.class);
         List<Firefighter> firefighters = mockListOfFirefighters();
         doReturn(firefighters).when(firefighterRepository).findAll();
-        firefighterService = new FirefighterService(firefighterRepository);
 
         //when
         Optional<Firefighter> bestFirefighter = firefighterService.getBestFirefighter();
@@ -39,10 +48,8 @@ import static pl.machnikovsky.tddapp.unit.MockLists.mockListOfFirefighters;
     @Test
     void shouldNotReturnBestFirefighter() {
         //given
-        FirefighterRepository firefighterRepository = mock(FirefighterRepository.class);
         List<Firefighter> firefighters = new ArrayList<>();
         doReturn(firefighters).when(firefighterRepository).findAll();
-        firefighterService = new FirefighterService(firefighterRepository);
 
         //when
         Optional<Firefighter> bestFirefighter = firefighterService.getBestFirefighter();
@@ -54,10 +61,8 @@ import static pl.machnikovsky.tddapp.unit.MockLists.mockListOfFirefighters;
     @Test
     void shouldReturnHighestRank() {
         //given
-        FirefighterRepository firefighterRepository = mock(FirefighterRepository.class);
         List<Firefighter> firefighters = mockListOfFirefighters();
         doReturn(firefighters).when(firefighterRepository).findAll();
-        firefighterService = new FirefighterService(firefighterRepository);
 
         //when
         Optional<Firefighter> bestFirefighter = firefighterService.getHighestRank();
@@ -69,10 +74,8 @@ import static pl.machnikovsky.tddapp.unit.MockLists.mockListOfFirefighters;
     @Test
     void shouldNotReturnHighestRank() {
         //given
-        FirefighterRepository firefighterRepository = mock(FirefighterRepository.class);
         List<Firefighter> firefighters = new ArrayList<>();
         doReturn(firefighters).when(firefighterRepository).findAll();
-        firefighterService = new FirefighterService(firefighterRepository);
 
         //when
         Optional<Firefighter> bestFirefighter = firefighterService.getHighestRank();
@@ -84,10 +87,8 @@ import static pl.machnikovsky.tddapp.unit.MockLists.mockListOfFirefighters;
     @Test
     void shouldReturnAllFirefighters() {
         //given
-        FirefighterRepository firefighterRepository = mock(FirefighterRepository.class);
         List<Firefighter> firefighters = mockListOfFirefighters();
         doReturn(firefighters).when(firefighterRepository).findAll();
-        firefighterService = new FirefighterService(firefighterRepository);
 
         //when
         ResponseEntity<List<Firefighter>> responseEntity = firefighterService.getFirefighters();
@@ -99,10 +100,8 @@ import static pl.machnikovsky.tddapp.unit.MockLists.mockListOfFirefighters;
     @Test
     void shouldNotReturnAllFirefighters() {
         //given
-        FirefighterRepository firefighterRepository = mock(FirefighterRepository.class);
         List<Firefighter> firefighters = new ArrayList<>();
         doReturn(firefighters).when(firefighterRepository).findAll();
-        firefighterService = new FirefighterService(firefighterRepository);
 
         //when
         ResponseEntity<List<Firefighter>> responseEntity = firefighterService.getFirefighters();
@@ -114,10 +113,8 @@ import static pl.machnikovsky.tddapp.unit.MockLists.mockListOfFirefighters;
     @Test
     void shouldReturnOverCertainPoint() {
         //given
-        FirefighterRepository firefighterRepository = mock(FirefighterRepository.class);
         List<Firefighter> firefighters = mockListOfFirefighters();
         doReturn(firefighters).when(firefighterRepository).findAll();
-        firefighterService = new FirefighterService(firefighterRepository);
 
         //when
         List<Firefighter> firefightersList = firefighterService.getFirefightersOver(700);
@@ -129,10 +126,8 @@ import static pl.machnikovsky.tddapp.unit.MockLists.mockListOfFirefighters;
     @Test
     void shouldNotReturnOverCertainPoint() {
         //given
-        FirefighterRepository firefighterRepository = mock(FirefighterRepository.class);
         List<Firefighter> firefighters = mockListOfFirefighters();
         doReturn(firefighters).when(firefighterRepository).findAll();
-        firefighterService = new FirefighterService(firefighterRepository);
 
         //when
         List<Firefighter> firefightersList = firefighterService.getFirefightersOver(1000);
@@ -140,7 +135,6 @@ import static pl.machnikovsky.tddapp.unit.MockLists.mockListOfFirefighters;
         //then
         Assertions.assertEquals(0, firefightersList.size());
     }
-
 
 
 }

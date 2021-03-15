@@ -2,11 +2,14 @@ package pl.machnikovsky.tddapp.unit;
 
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pl.machnikovsky.tddapp.model.Firestation;
+import pl.machnikovsky.tddapp.repository.FirefighterRepository;
 import pl.machnikovsky.tddapp.repository.FirestationRepository;
+import pl.machnikovsky.tddapp.service.FirefighterService;
 import pl.machnikovsky.tddapp.service.FirestationService;
 
 import java.util.ArrayList;
@@ -21,14 +24,19 @@ import static pl.machnikovsky.tddapp.unit.MockLists.mockListOfFirestations;
 class FirestationServiceTest {
 
     private FirestationService firestationService;
+    private FirestationRepository firestationRepository;
+
+    @BeforeEach
+    void init() {
+        firestationRepository = mock(FirestationRepository.class);
+        firestationService = new FirestationService(firestationRepository);
+    }
 
     @Test
     void shouldReturnFirestationWithMostFirefighters() {
         //given
-        FirestationRepository firestationRepository = mock(FirestationRepository.class);
         List<Firestation> firestations = mockListOfFirestations();
         doReturn(firestations).when(firestationRepository).findAll();
-        firestationService = new FirestationService(firestationRepository);
 
         //when
         Optional<Firestation> firestation = firestationService.findMostFirefighters();
@@ -40,10 +48,8 @@ class FirestationServiceTest {
     @Test
     void shouldNotReturnFirestationWithMostFirefighters() {
         //given
-        FirestationRepository firestationRepository = mock(FirestationRepository.class);
         List<Firestation> firestations = new ArrayList<>();
         doReturn(firestations).when(firestationRepository).findAll();
-        firestationService = new FirestationService(firestationRepository);
 
         //when
         Optional<Firestation> firestation = firestationService.findMostFirefighters();
@@ -55,10 +61,8 @@ class FirestationServiceTest {
     @Test
     void shouldReturnFirestationsWithChief() {
         //given
-        FirestationRepository firestationRepository = mock(FirestationRepository.class);
         List<Firestation> firestations = mockListOfFirestations();
         doReturn(firestations).when(firestationRepository).findAll();
-        firestationService = new FirestationService(firestationRepository);
 
         //when
         List<Firestation> firestationsWithChief = firestationService.findFirestationWithChief();
@@ -70,10 +74,8 @@ class FirestationServiceTest {
     @Test
     void shouldNotReturnFirestationsWithChief() {
         //given
-        FirestationRepository firestationRepository = mock(FirestationRepository.class);
         List<Firestation> firestations = new ArrayList<>();
         doReturn(firestations).when(firestationRepository).findAll();
-        firestationService = new FirestationService(firestationRepository);
 
         //when
         List<Firestation> firestationsWithChief = firestationService.findFirestationWithChief();
