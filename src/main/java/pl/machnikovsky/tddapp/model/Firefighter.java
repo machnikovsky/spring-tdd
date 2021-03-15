@@ -15,14 +15,16 @@ public class Firefighter {
     private String lastname;
     private Rank rank;
     private int points;
+    private Firestation firestation;
 
 
-    public Firefighter(int id, String name, String lastname, Rank rank, int points) {
+    public Firefighter(int id, String name, String lastname, Rank rank, int points, Firestation firestation) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
         this.rank = rank;
         this.points = points;
+        this.firestation = firestation;
     }
 
     public Firefighter() {
@@ -70,5 +72,13 @@ public class Firefighter {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public Firestation getFirestation() {
+        return firestation;
+    }
+
+    public void setFirestation(Firestation firestation) {
+        this.firestation = firestation;
     }
 }

@@ -42,6 +42,21 @@ public class FirefighterServiceTest {
     }
 
     @Test
+    void shouldNotReturnBestFirefighter() {
+        //given
+        FirefighterRepository firefighterRepository = mock(FirefighterRepository.class);
+        List<Firefighter> firefighters = new ArrayList<>();
+        doReturn(firefighters).when(firefighterRepository).findAll();
+        firefighterService = new FirefighterService(firefighterRepository);
+
+        //when
+        Optional<Firefighter> bestFirefighter = firefighterService.getBestFirefighter();
+
+        //then
+        Assertions.assertEquals(Optional.empty(), bestFirefighter);
+    }
+
+    @Test
     void shouldReturnHighestRank() {
         //given
         FirefighterRepository firefighterRepository = mock(FirefighterRepository.class);
@@ -57,6 +72,21 @@ public class FirefighterServiceTest {
     }
 
     @Test
+    void shouldNotReturnHighestRank() {
+        //given
+        FirefighterRepository firefighterRepository = mock(FirefighterRepository.class);
+        List<Firefighter> firefighters = new ArrayList<>();
+        doReturn(firefighters).when(firefighterRepository).findAll();
+        firefighterService = new FirefighterService(firefighterRepository);
+
+        //when
+        Optional<Firefighter> bestFirefighter = firefighterService.getHighestRank();
+
+        //then
+        Assertions.assertEquals(Optional.empty(), bestFirefighter);
+    }
+
+    @Test
     void shouldReturnAllFirefighters() {
         //given
         FirefighterRepository firefighterRepository = mock(FirefighterRepository.class);
@@ -69,6 +99,51 @@ public class FirefighterServiceTest {
 
         //then
         Assertions.assertEquals(4, responseEntity.getBody().size());
+    }
+
+    @Test
+    void shouldNotReturnAllFirefighters() {
+        //given
+        FirefighterRepository firefighterRepository = mock(FirefighterRepository.class);
+        List<Firefighter> firefighters = new ArrayList<>();
+        doReturn(firefighters).when(firefighterRepository).findAll();
+        firefighterService = new FirefighterService(firefighterRepository);
+
+        //when
+        ResponseEntity<List<Firefighter>> responseEntity = firefighterService.getFirefighters();
+
+        //then
+        Assertions.assertEquals(0, responseEntity.getBody().size());
+    }
+
+    @Test
+    void shouldReturnOverCertainPoint() {
+        //given
+        FirefighterRepository firefighterRepository = mock(FirefighterRepository.class);
+        List<Firefighter> firefighters = mockListOfFirefighters();
+        doReturn(firefighters).when(firefighterRepository).findAll();
+        firefighterService = new FirefighterService(firefighterRepository);
+
+        //when
+        List<Firefighter> firefightersList = firefighterService.getFirefightersOver(700);
+
+        //then
+        Assertions.assertEquals(3, firefightersList.size());
+    }
+
+    @Test
+    void shouldNotReturnOverCertainPoint() {
+        //given
+        FirefighterRepository firefighterRepository = mock(FirefighterRepository.class);
+        List<Firefighter> firefighters = mockListOfFirefighters();
+        doReturn(firefighters).when(firefighterRepository).findAll();
+        firefighterService = new FirefighterService(firefighterRepository);
+
+        //when
+        List<Firefighter> firefightersList = firefighterService.getFirefightersOver(1000);
+
+        //then
+        Assertions.assertEquals(0, firefightersList.size());
     }
 
 
