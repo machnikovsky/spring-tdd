@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import pl.machnikovsky.tddapp.model.Fire;
 import pl.machnikovsky.tddapp.model.Firefighter;
 import pl.machnikovsky.tddapp.model.Rank;
@@ -52,6 +54,21 @@ public class FirefighterServiceTest {
 
         //then
         Assertions.assertEquals(Rank.CHIEF, bestFirefighter.get().getRank());
+    }
+
+    @Test
+    void shouldReturnAllFirefighters() {
+        //given
+        FirefighterRepository firefighterRepository = mock(FirefighterRepository.class);
+        List<Firefighter> firefighters = mockListOfFirefighters();
+        doReturn(firefighters).when(firefighterRepository).findAll();
+        firefighterService = new FirefighterService(firefighterRepository);
+
+        //when
+        ResponseEntity<List<Firefighter>> responseEntity = firefighterService.getFirefighters();
+
+        //then
+        Assertions.assertEquals(4, responseEntity.getBody().size());
     }
 
 

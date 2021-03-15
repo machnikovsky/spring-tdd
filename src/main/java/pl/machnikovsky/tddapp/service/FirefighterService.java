@@ -29,4 +29,8 @@ public class FirefighterService {
     public Optional<Firefighter> getBestFirefighter() {
         return firefighterRepository.findAll().stream().max(Comparator.comparingInt(Firefighter::getPoints));
     }
+
+    public Optional<Firefighter> getHighestRank() {
+        return firefighterRepository.findAll().stream().max(Comparator.comparingInt(f -> f.getRank().getRankLevel()));
+    }
 }

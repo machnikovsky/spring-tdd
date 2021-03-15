@@ -56,7 +56,7 @@ public class Firefighter {
         return rank;
     }
 
-    public Rank getRankLevel(int rankLevel) {
+    public Rank getRankByRankLevel(int rankLevel) {
         return rank.getRankByRankLevel(rankLevel);
     }
 
