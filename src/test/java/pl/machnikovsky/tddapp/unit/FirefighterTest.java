@@ -18,7 +18,7 @@ import static org.mockito.Mockito.mock;
 import static pl.machnikovsky.tddapp.unit.MockLists.mockListOfFirefighters;
 
 @ExtendWith(MockitoExtension.class)
-class FirefighterServiceTest {
+class FirefighterTest {
 
 
     private FirefighterService firefighterService;

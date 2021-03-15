@@ -21,7 +21,7 @@ import static pl.machnikovsky.tddapp.unit.MockLists.mockListOfFirestations;
 
 
 @ExtendWith(MockitoExtension.class)
-class FirestationServiceTest {
+class FirestationTest {
 
     private FirestationService firestationService;
     private FirestationRepository firestationRepository;
