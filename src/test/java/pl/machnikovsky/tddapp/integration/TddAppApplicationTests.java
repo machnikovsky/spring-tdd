@@ -1,4 +1,4 @@
-package pl.machnikovsky.tddapp;
+package pl.machnikovsky.tddapp.integration;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;

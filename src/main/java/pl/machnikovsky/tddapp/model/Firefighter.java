@@ -3,6 +3,7 @@ package pl.machnikovsky.tddapp.model;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.Entity;
+import java.util.stream.Stream;
 
 @Entity
 public class Firefighter {
@@ -12,13 +13,16 @@ public class Firefighter {
 
     private String name;
     private String lastname;
-    private String rank;
+    private Rank rank;
+    private int points;
 
-    public Firefighter(int id, String name, String lastname, String rank) {
+
+    public Firefighter(int id, String name, String lastname, Rank rank, int points) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
         this.rank = rank;
+        this.points = points;
     }
 
     public Firefighter() {
@@ -48,11 +52,23 @@ public class Firefighter {
         this.lastname = lastname;
     }
 
-    public String getRank() {
+    public Rank getRank() {
         return rank;
     }
 
-    public void setRank(String rank) {
+    public Rank getRankLevel(int rankLevel) {
+        return rank.getRankByRankLevel(rankLevel);
+    }
+
+    public void setRank(Rank rank) {
         this.rank = rank;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 }

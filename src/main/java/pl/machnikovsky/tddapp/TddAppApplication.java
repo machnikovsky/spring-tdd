@@ -22,9 +22,9 @@ public class TddAppApplication {
         SpringApplication.run(TddAppApplication.class, args);
     }
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void init() {
-        firefighterRepository.save(new Firefighter(1, "Sam", "Sammy", "Master"));
-    }
+//    @EventListener(ApplicationReadyEvent.class)
+//    public void init() {
+//        firefighterRepository.save(new Firefighter(1, "Sam", "Sammy", "Master"));
+//    }
 
 }
