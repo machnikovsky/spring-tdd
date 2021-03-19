@@ -1,7 +1,8 @@
 package pl.machnikovsky.tddapp.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -12,6 +13,7 @@ public class Firestation {
 
     private String city;
     private int firefightersNumber;
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Firefighter> firefighters;
 
     public Firestation(int id, String city, int firefightersNumber, List<Firefighter> firefighters) {
@@ -54,5 +56,10 @@ public class Firestation {
 
     public void setFirefighters(List<Firefighter> firefighters) {
         this.firefighters = firefighters;
+    }
+
+    @Transactional
+    public void removeFirefighter(Firefighter firefighter) {
+        this.firefighters.remove(firefighter);
     }
 }

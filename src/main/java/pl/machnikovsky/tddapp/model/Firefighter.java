@@ -1,20 +1,18 @@
 package pl.machnikovsky.tddapp.model;
 
-import org.springframework.data.annotation.Id;
-
-import javax.persistence.Entity;
-import java.util.stream.Stream;
+import javax.persistence.*;
 
 @Entity
 public class Firefighter {
 
     @Id
     private int id;
-
     private String name;
     private String lastname;
     private Rank rank;
     private int points;
+    @ManyToOne
+    @JoinColumn(name = "firestation_id")
     private Firestation firestation;
 
 
@@ -28,6 +26,13 @@ public class Firefighter {
     }
 
     public Firefighter() {
+    }
+
+    @PreRemove
+    public void removeFromFirestation() {
+        if (this.firestation != null) {
+            this.firestation.removeFirefighter(this);
+        }
     }
 
     public int getId() {

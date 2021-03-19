@@ -3,10 +3,7 @@ package pl.machnikovsky.tddapp.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.machnikovsky.tddapp.model.Firefighter;
 import pl.machnikovsky.tddapp.service.FirefighterService;
 
@@ -27,5 +24,23 @@ public class FirefighterController {
     @ResponseStatus
     public ResponseEntity<List<Firefighter>>  getFirefighters() {
         return firefighterService.getFirefighters();
+    }
+
+    @GetMapping("/firefighters/{id}")
+    @ResponseStatus
+    public ResponseEntity<Firefighter>  getFirefighters(@PathVariable("id") int id) {
+        return firefighterService.getFirefighterById(id);
+    }
+
+    @PostMapping("/firefighters")
+    @ResponseStatus
+    public ResponseEntity<Firefighter>  addFirefighter(@RequestBody Firefighter firefighter) {
+        return firefighterService.addFirefighter(firefighter);
+    }
+
+    @DeleteMapping("/firefighters/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteFirefighter(@PathVariable("id") int id) {
+        firefighterService.deleteFirefighterById(id);
     }
 }

@@ -2,6 +2,8 @@ package pl.machnikovsky.tddapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.machnikovsky.tddapp.model.Fire;
+import pl.machnikovsky.tddapp.model.Firefighter;
 import pl.machnikovsky.tddapp.model.Firestation;
 import pl.machnikovsky.tddapp.model.Rank;
 import pl.machnikovsky.tddapp.repository.FirestationRepository;
@@ -38,4 +40,5 @@ public class FirestationService {
                 )
                 .collect(Collectors.toList());
     }
+
 }

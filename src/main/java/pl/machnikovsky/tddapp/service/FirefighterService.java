@@ -4,9 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.comparator.Comparators;
+import pl.machnikovsky.tddapp.exception.FirefighterNotFoundException;
+import pl.machnikovsky.tddapp.exception.FirestationNotFoundException;
+import pl.machnikovsky.tddapp.model.Fire;
 import pl.machnikovsky.tddapp.model.Firefighter;
+import pl.machnikovsky.tddapp.model.Firestation;
 import pl.machnikovsky.tddapp.repository.FirefighterRepository;
+import pl.machnikovsky.tddapp.repository.FirestationRepository;
 
 import java.util.Comparator;
 import java.util.List;
@@ -17,10 +21,17 @@ import java.util.stream.Collectors;
 public class FirefighterService {
 
     FirefighterRepository firefighterRepository;
+    FirestationRepository firestationRepository;
 
-    @Autowired
+
     public FirefighterService(FirefighterRepository firefighterRepository) {
         this.firefighterRepository = firefighterRepository;
+    }
+
+    @Autowired
+    public FirefighterService(FirefighterRepository firefighterRepository, FirestationRepository firestationRepository) {
+        this.firefighterRepository = firefighterRepository;
+        this.firestationRepository = firestationRepository;
     }
 
     public ResponseEntity<List<Firefighter>> getFirefighters() {
@@ -47,5 +58,32 @@ public class FirefighterService {
                 .stream()
                 .filter(firefighter -> firefighter.getPoints() > points)
                 .collect(Collectors.toList());
+    }
+
+    public ResponseEntity<Firefighter>  getFirefighterById(int id) {
+        Firefighter firefighter = firefighterRepository.findById(id).orElseThrow(() -> new FirefighterNotFoundException(id));
+        return new ResponseEntity<>(firefighter, HttpStatus.OK);
+    }
+
+    public ResponseEntity<Firefighter> addFirefighter(Firefighter firefighter) {
+        return new ResponseEntity<>(firefighterRepository.save(firefighter), HttpStatus.OK);
+    }
+
+    public void deleteFirefighterById(int id) {
+        Optional<Firefighter> firefighter = firefighterRepository
+                .findById(id);
+
+        firestationRepository
+                .findAll()
+                .stream()
+                .filter(fs -> fs
+                        .getFirefighters()
+                        .stream()
+                        .anyMatch(ff -> ff.getId() == id))
+                .findFirst().ifPresent(el -> el.removeFirefighter(firefighter.get()));
+
+        firefighter
+                .ifPresent(ff -> firefighterRepository.deleteById(ff.getId()));
+
     }
 }
