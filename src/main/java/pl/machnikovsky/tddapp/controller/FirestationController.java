@@ -33,10 +33,18 @@ public class FirestationController {
         return firestationService.getFirestationsWithMoreThanSomeNumberFirefighters(firefighters);
     }
 
-
     @GetMapping("/firestations/findByCity")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Firestation>> getFirestationsFromCity(@RequestParam("city") String city) {
         return firestationService.getFirestationsFromCity(city);
+    }
+
+    @GetMapping("/firestations/filter")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<Firestation>> getFilteredFirestations(
+            @RequestParam(name = "city", required = false, defaultValue = "empty") String city,
+            @RequestParam(name = "firefighters", required = false, defaultValue = "-1") int firefighters
+            ) {
+        return firestationService.getFilteredFirestations(city, firefighters);
     }
 }

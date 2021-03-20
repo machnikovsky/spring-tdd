@@ -43,7 +43,7 @@ class FireTest {
         doReturn(fires).when(fireRepository).findAll();
 
         //when
-        List<Fire> activeFires = fireService.findActiveFires();
+        List<Fire> activeFires = fireService.findActiveFires().getBody();
 
         //then
         Assertions.assertEquals(3, activeFires.size());
@@ -56,7 +56,7 @@ class FireTest {
         doReturn(fires).when(fireRepository).findAll();
 
         //when
-        List<Fire> activeFires = fireService.findActiveFires();
+        List<Fire> activeFires = fireService.findActiveFires().getBody();
 
         //then
         Assertions.assertEquals(0, activeFires.size());
@@ -70,7 +70,7 @@ class FireTest {
         List<Fire> fires = mockListOfFires();
 
         //when
-        List<Firestation> suitableFirestations = fireService.findSuitableFirestations(fires.get(1));
+        List<Firestation> suitableFirestations = fireService.findSuitableFirestations(fires.get(1)).getBody();
 
         //then
         Assertions.assertEquals(1, suitableFirestations.size());
@@ -84,7 +84,7 @@ class FireTest {
         List<Fire> fires = mockListOfFires();
 
         //when
-        List<Firestation> suitableFirestations = fireService.findSuitableFirestations(fires.get(0));
+        List<Firestation> suitableFirestations = fireService.findSuitableFirestations(fires.get(0)).getBody();
 
         //then
         Assertions.assertEquals(0, suitableFirestations.size());

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import pl.machnikovsky.tddapp.model.Fire;
 import pl.machnikovsky.tddapp.model.Firefighter;
 import pl.machnikovsky.tddapp.model.Firestation;
@@ -55,5 +56,15 @@ public class FirestationService {
     public ResponseEntity<List<Firestation>> getFirestationsFromCity(String city) {
         List<Firestation> firestations = firestationRepository.findAll().stream().filter(fs -> fs.getCity().equals(city)).collect(Collectors.toList());
         return new ResponseEntity<>(firestations, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<Firestation>> getFilteredFirestations(String city, int firefighters) {
+        List<Firestation> firestations = firestationRepository.findAll().stream()
+                .filter(firestation -> (city.equals("empty") ? true : firestation.getCity().equals(city)))
+                .filter(firestation -> (firefighters == -1 ? true : firestation.getFirefightersNumber() == firefighters))
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(firestations, HttpStatus.OK);
+
     }
 }

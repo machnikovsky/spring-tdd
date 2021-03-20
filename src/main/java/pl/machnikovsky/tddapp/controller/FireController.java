@@ -2,11 +2,9 @@ package pl.machnikovsky.tddapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.machnikovsky.tddapp.model.Fire;
+import pl.machnikovsky.tddapp.model.Firestation;
 import pl.machnikovsky.tddapp.service.FireService;
 import pl.machnikovsky.tddapp.service.FirestationService;
 
@@ -29,6 +27,13 @@ public class FireController {
     }
 
 
+    @GetMapping("fires/{id}")
+    @ResponseStatus
+    public ResponseEntity<Fire> getFireById(@PathVariable("id") int id) {
+        return fireService.getFireById(id);
+    }
+
+
     @GetMapping("/fires/danger")
     @ResponseStatus
     public ResponseEntity<List<Fire>> getWithCertainDanger(@RequestParam("danger") int danger) {
@@ -39,6 +44,12 @@ public class FireController {
     @ResponseStatus
     public ResponseEntity<List<Fire>> getWithAtLeastCertainDanger(@RequestParam("danger") int danger) {
         return fireService.getWithAtLeastCertainDanger(danger);
+    }
+
+    @GetMapping("/fires/active")
+    @ResponseStatus
+    public ResponseEntity<List<Fire>> getActiveFires() {
+        return fireService.findActiveFires();
     }
 }
 
