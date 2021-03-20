@@ -1,6 +1,8 @@
 package pl.machnikovsky.tddapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.machnikovsky.tddapp.model.Fire;
 import pl.machnikovsky.tddapp.model.Firefighter;
@@ -41,4 +43,17 @@ public class FirestationService {
                 .collect(Collectors.toList());
     }
 
+    public ResponseEntity<List<Firestation>> getAllFirestations() {
+        return new ResponseEntity<>(firestationRepository.findAll(), HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<Firestation>> getFirestationsWithMoreThanSomeNumberFirefighters(int firefighters) {
+        List<Firestation> firestations = firestationRepository.findAll().stream().filter(fs -> fs.getFirefighters().size() >= firefighters).collect(Collectors.toList());
+        return new ResponseEntity<>(firestations, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<Firestation>> getFirestationsFromCity(String city) {
+        List<Firestation> firestations = firestationRepository.findAll().stream().filter(fs -> fs.getCity().equals(city)).collect(Collectors.toList());
+        return new ResponseEntity<>(firestations, HttpStatus.OK);
+    }
 }

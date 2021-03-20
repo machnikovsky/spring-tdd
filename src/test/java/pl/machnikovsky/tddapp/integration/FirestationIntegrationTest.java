@@ -39,8 +39,8 @@ public class FirestationIntegrationTest {
 
     @Test
     public void shouldReturnFirestationsWithMoreThanSomeNumberFirefighters() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/firestations")
-                .param("firefighters", "3"))
+        MvcResult mvcResult = mockMvc.perform(get("/firestations/findByFirefighters")
+                .param("firefighters", "2"))
                 .andExpect(status().is(200))
                 .andReturn();
 
@@ -51,7 +51,7 @@ public class FirestationIntegrationTest {
 
     @Test
     public void shouldReturnFirestationsFromCertainCity() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/firestations")
+        MvcResult mvcResult = mockMvc.perform(get("/firestations/findByCity")
                 .param("city", "London"))
                 .andExpect(status().is(200))
                 .andReturn();
