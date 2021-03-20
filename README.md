@@ -1,4 +1,16 @@
+# Spring TDD Application
+
 In that project I'm trying to make little Firefighter system with three basic entities - Firefighter, Firestation and Fire. There's also additional enum - Rank, and it's an attribute of Firefighter. The main goal of this project is to build it according to TDD approach, BDD specifically (given/when/then). I'm also trying to write three different types of tests - Unit Tests, Integration Tests, E2E Tests. The core project is written in Spring and I'm using JUnit and Mockito for test purposes, but I'm going to add PostgreSQL databses for later tests.
+
+## Table of contents
+
+- [Unit tests](#unit-tests)
+- [Integration tests](#integration-tests)
+- [E2E tests](#e2e-tests)
+- [Results](#results)
+
+
+
 
 ## Unit tests
 
