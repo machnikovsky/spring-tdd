@@ -1,6 +1,8 @@
 package pl.machnikovsky.tddapp.service;
 
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -38,11 +40,12 @@ public class FirefighterService {
         return new ResponseEntity<>(firefighterRepository.findAll(), HttpStatus.OK);
     }
 
-    public Optional<Firefighter> getBestFirefighter() {
-        return firefighterRepository
+    public ResponseEntity<Optional<Firefighter>> getBestFirefighter() {
+        Optional<Firefighter> firefighter = firefighterRepository
                 .findAll()
                 .stream()
                 .max(Comparator.comparing(Firefighter::getPoints));
+        return new ResponseEntity<>(firefighter, HttpStatus.OK);
     }
 
     public Optional<Firefighter> getHighestRank() {

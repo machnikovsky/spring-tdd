@@ -39,7 +39,7 @@ class FirefighterTest {
         doReturn(firefighters).when(firefighterRepository).findAll();
 
         //when
-        Optional<Firefighter> bestFirefighter = firefighterService.getBestFirefighter();
+        Optional<Firefighter> bestFirefighter = firefighterService.getBestFirefighter().getBody();
 
         //then
         Assertions.assertEquals(930, bestFirefighter.get().getPoints());
@@ -52,7 +52,7 @@ class FirefighterTest {
         doReturn(firefighters).when(firefighterRepository).findAll();
 
         //when
-        Optional<Firefighter> bestFirefighter = firefighterService.getBestFirefighter();
+        Optional<Firefighter> bestFirefighter = firefighterService.getBestFirefighter().getBody();
 
         //then
         Assertions.assertEquals(Optional.empty(), bestFirefighter);

@@ -8,6 +8,7 @@ import pl.machnikovsky.tddapp.model.Firefighter;
 import pl.machnikovsky.tddapp.service.FirefighterService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class FirefighterController {
@@ -28,8 +29,14 @@ public class FirefighterController {
 
     @GetMapping("/firefighters/{id}")
     @ResponseStatus
-    public ResponseEntity<Firefighter>  getFirefighters(@PathVariable("id") int id) {
+    public ResponseEntity<Firefighter> getFirefighters(@PathVariable("id") int id) {
         return firefighterService.getFirefighterById(id);
+    }
+
+    @GetMapping("/firefighters/best")
+    @ResponseStatus
+    public ResponseEntity<Optional<Firefighter>> getBestFirefighter() {
+        return firefighterService.getBestFirefighter();
     }
 
     @PostMapping("/firefighters")
