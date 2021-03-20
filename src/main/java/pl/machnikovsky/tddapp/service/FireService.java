@@ -1,7 +1,10 @@
 package pl.machnikovsky.tddapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import pl.machnikovsky.tddapp.model.Fire;
 import pl.machnikovsky.tddapp.model.Firestation;
 import pl.machnikovsky.tddapp.repository.FireRepository;
@@ -43,5 +46,19 @@ public class FireService {
                             firestation.getCity().equals(fire.getCity());
                 })
                 .collect(Collectors.toList());
+    }
+
+    public ResponseEntity<List<Fire>> getAllFires() {
+        return new ResponseEntity<>(fireRepository.findAll(), HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<Fire>> getWithCertainDanger(int danger) {
+        List<Fire> fires = fireRepository.findAll().stream().filter(f -> f.getDangerLevel() == danger).collect(Collectors.toList());
+        return new ResponseEntity<>(fires, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<Fire>> getWithAtLeastCertainDanger(int danger) {
+        List<Fire> fires = fireRepository.findAll().stream().filter(f -> f.getDangerLevel() >= danger).collect(Collectors.toList());
+        return new ResponseEntity<>(fires, HttpStatus.OK);
     }
 }
