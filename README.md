@@ -2,9 +2,10 @@ In that project I'm trying to make little Firefighter system with three basic en
 
 ## Unit tests
 
+Insise Unit Tests I focused on veryfing that logic and functionality works fine. I tested service layer or both service and repository layers, whether they communicate well and return expected results. I also tested edge cases. 
 
-- FirefighterTest - that class tests logic inside Firefighter Service. It also mocks FirefighterRepository. Main focus of tests in that class is to check if certain functionality returns correct values or if empty result is returned when wanted.
 
+- FirefighterTest
 ```
 @ExtendWith(MockitoExtension.class)
 class FirefighterTest {
@@ -28,8 +29,7 @@ Actual tests
 ```
 
 
-- FirestationTest - that class tests logic inside FirestationService. It also mocks FirestationRepository. Main focus of tests in that class is to check if certain functionality returns correct values or if empty result is returned when wanted.
-
+- FirestationTest
 ```
 @ExtendWith(MockitoExtension.class)
 class FirestationTest {
@@ -51,8 +51,7 @@ Actual tests
 ```
 
 
-- FireTest - that class tests logic inside FireService. It also mocks FireRepository and FirestationRepository. Main focus of tests in that class is to check if certain functionality returns correct values or if empty result is returned when wanted. That class is different from the two above, because it also mocks second Repository, because functionality of one function covers both of them.
-
+- FireTest
 ```
 @ExtendWith(MockitoExtension.class)
 class FireTest {
@@ -77,7 +76,6 @@ Actual tests
 
 
 - MockLists - that class provides mocked lists of various objects used in other test classes.
-
 ```
 class MockLists {
 
@@ -87,6 +85,183 @@ class MockLists {
 
     public static List<Fire> mockListOfFires() {...}
 
+}
+```
+
+
+## Integration tests
+
+
+Inside integration tests I checked whether connection to database works fine, if I can get certain values, add new records to database, remove them, and also if he logic itself works fine. For the purposes of these tests I also created two profiles - "test" and "prod" with two different application.properties files. Each profiles has a different database, so that tests doesn't do any harm to actual databse.
+
+
+- FirefighterIntegrationTest
+```
+@SpringBootTest
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
+class FirefighterIntegrationTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    ObjectMapper objectMapper;
+
+    @Test
+    public void shouldReturnAllFirefighters() throws Exception {...}
+
+    @Test
+    public void shouldReturn404() throws Exception {...}
+
+    @Test
+    public void shouldReturnCertainFirefighter() throws Exception {...}
+
+    @Test
+    public void shouldAddAndRemoveNewFirefighter() throws Exception {...}
+
+}
+```
+
+
+- FirestationsIntegrationTest
+```
+@SpringBootTest
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
+public class FirestationIntegrationTest {
+
+    @Autowired
+    MockMvc mockMvc;
+
+    @Autowired
+    ObjectMapper objectMapper;
+
+    @Test
+    public void shouldReturnAllFirestations() throws Exception {...}
+
+    @Test
+    public void shouldReturnFirestationsWithMoreThanSomeNumberFirefighters() throws Exception {...}
+
+    @Test
+    public void shouldReturnFirestationsFromCertainCity() throws Exception {...}
+}
+```
+
+
+- FireIntegrationTest
+```
+@SpringBootTest
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
+public class FireIntegrationTest {
+
+    @Autowired
+    MockMvc mockMvc;
+
+    @Autowired
+    ObjectMapper objectMapper;
+
+    @Test
+    public void shouldReturnAllFires() throws Exception {...}
+
+    @Test
+    public void shouldReturnFiresWithCertainDanger() throws Exception {...}
+
+    @Test
+    public void shouldReturnFiresWithAtLeastCertainDanger() throws Exception {...}
+
+}
+```
+
+
+- Mocked values - to make tests possible I mocked the values into repositories by injecting them at the start of application
+
+```
+    @EventListener(ApplicationReadyEvent.class)
+    public void init() {
+        firefighterRepository.saveAll(firefighters);
+        firestationRepository.saveAll(firestations);
+        fireRepository.saveAll(fires);
+    }
+```
+
+
+
+## E2E tests
+
+
+Inside E2E tests I simulate entering certain endpoints by client. I can't do that specifically, because my application doesn't have FrontEnd, but I can access these endpoints and check whether everything works as it should, the whole functionality, integration and working of http is tested here. Here I use random port, so I can test whether it works as it should on any port. I also run the whole Spring Context. I use mocked values from integration tests.
+
+- FirefighterE2ETest
+```
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
+public class FirefighterE2ETest {
+
+    @LocalServerPort
+    private int port;
+
+    @Autowired
+    TestRestTemplate testRestTemplate;
+
+    @Test
+    public void shouldReturnAllFirefighters() {...}
+
+    @Test
+    public void shouldReturnBestFirefighter() {...}
+
+    @Test
+    public void shouldReturnFirefighterNotFoundException() {...}
+}
+```
+
+- FirestationE2ETest
+```
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
+public class FirestationE2ETest {
+
+    @LocalServerPort
+    private int port;
+
+    @Autowired
+    TestRestTemplate testRestTemplate;
+
+    @Test
+    public void shouldReturnAllFirestations() {...}
+
+    @Test
+    public void shouldReturnFirestationsFromCertainCity() {...}
+
+    @Test
+    public void shouldReturnFirestationsWithCertainNumberOfFirefighters() {...}
+}
+```
+
+- FireE2ETest
+```
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
+public class FireE2ETest {
+
+    @LocalServerPort
+    private int port;
+
+    @Autowired
+    TestRestTemplate testRestTemplate;
+
+    @Autowired
+    ObjectMapper objectMapper;
+
+    @Test
+    public void shouldReturnAllFires() {...}
+
+    @Test
+    public void shouldReturnAllActiveFires() {...}
+
+    @Test
+    public void shouldReturnFiresWithDangerAtLeast() {...}
 }
 ```
 
